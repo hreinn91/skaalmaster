@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.hreinn.skaalmaster.SkaalMaster;
+import com.hreinn.skaalmaster.util.FontFactory;
 
 public class WarningScreen implements Screen {
 
@@ -20,6 +22,7 @@ public class WarningScreen implements Screen {
     private SkaalMaster game;
     private OrthographicCamera camera;
     private Stage stage = new Stage();
+    private BitmapFont bitmapFont;
 
 
     public WarningScreen(SkaalMaster game) {
@@ -30,27 +33,15 @@ public class WarningScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
 
+        bitmapFont = FontFactory.getRobotRegular(Color.WHITE);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("BebasNeue-Regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 1000;
-        parameter.borderWidth = 1;
-        parameter.color = Color.WHITE;
-        parameter.shadowOffsetX = 3;
-        parameter.shadowOffsetY = 3;
-        parameter.shadowColor = new Color(0, 0.5f, 0, 0.75f);
-        BitmapFont font24 = generator.generateFont(parameter); // font size 24 pixels
-        generator.dispose();
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font24;
+        Label.LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, null);
 
         Label label2 = new Label("True Type Font (.ttf) - Gdx FreeType", labelStyle);
-//        label2.setSize(10, 10);
-        label2.setPosition(100, 100);
-        label2.setFontScale(0.1f);
-        label2.setText("hahahaha");
-//        label2.setFontScale(0.5f);
+        label2.setPosition(100, 500);
+        label2.setFontScale(1f);
+        String text = Gdx.files.internal("text/warning01.txt").readString();
+        label2.setText(text);
         stage.addActor(label2);
 
     }
