@@ -5,8 +5,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-public class FontFactory {
+public class LabelFactory {
+
+    public static Label createLabel(String text, float xPos, float yPos, Color color) {
+        Label label = new Label(text, new Label.LabelStyle(LabelFactory.getRobotRegular(color), null));
+        label.setPosition(xPos, yPos);
+        label.setFontScale(1f);
+        return label;
+    }
 
     public static BitmapFont getRobotRegular(Color color) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoCondensed-Regular.ttf"));
