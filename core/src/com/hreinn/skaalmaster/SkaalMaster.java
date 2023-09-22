@@ -16,8 +16,8 @@ public class SkaalMaster extends Game {
 	@Override
 	public void create () {
         batch = new SpriteBatch();
-//        this.setScreen(new AddPlayersScreen(this));
-        this.setScreen(new WarningScreen(this));
+        this.setScreen(new AddPlayersScreen(this));
+//        this.setScreen(new WarningScreen(this));
 	}
 
 	@Override

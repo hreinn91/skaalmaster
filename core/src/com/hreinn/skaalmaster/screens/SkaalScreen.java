@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hreinn.skaalmaster.SkaalMaster;
 
 public abstract class SkaalScreen implements Screen {
@@ -15,12 +16,14 @@ public abstract class SkaalScreen implements Screen {
 
     private final SkaalMaster game;
     private final OrthographicCamera camera;
-    private final Stage stage = new Stage();
+    private final ScreenViewport screenViewport;
+    private final Stage stage;
 
     protected SkaalScreen(SkaalMaster game) {
         this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera = new OrthographicCamera(800, 480);
+        screenViewport = new ScreenViewport(camera);
+        stage = new Stage(screenViewport);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -33,21 +36,16 @@ public abstract class SkaalScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(BACKGROUND_COLOR);
-
-        stage.act();
-        stage.draw();
-
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
 
-        if (Gdx.input.isTouched()) {
-            System.out.println("Click");
-        }
+        stage.act();
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -67,6 +65,7 @@ public abstract class SkaalScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
     }
 
     protected SkaalMaster getGame() {

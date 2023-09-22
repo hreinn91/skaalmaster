@@ -17,12 +17,12 @@ public class LabelFactory {
     }
 
     public static BitmapFont getRobotRegular(Color color) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoCondensed-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RobotoCondensed-Regular.ttf"));
         return getFont(generator, color, 100);
     }
 
     public static BitmapFont getRobotRegular(Color color, int fontSize) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoCondensed-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RobotoCondensed-Regular.ttf"));
         return getFont(generator, color, fontSize);
     }
 
