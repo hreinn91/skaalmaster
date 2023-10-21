@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.hreinn.skaalmaster.Player;
 import com.hreinn.skaalmaster.SkaalMaster;
+import com.hreinn.skaalmaster.screens.CardScreens.ChallengeScreen;
 import com.hreinn.skaalmaster.util.LabelFactory;
 
 import java.util.ArrayList;
@@ -62,12 +64,10 @@ public class AddPlayersScreen extends SkaalScreen {
     }
 
     private class StartGameImage extends Image {
-        private ClickListener imageClickListener;
-        private Sound skaalSound;
+        private final Sound skaalSound;
 
         public StartGameImage() {
             super(new Texture("image/start-game.png"));
-//            this.imageClickListener = imageClickListener;
             setPosition(XPOS_LEFT, YPOS_START_GAME);
             setScale(2.5f);
             skaalSound = Gdx.audio.newSound(Gdx.files.internal("sound/fredrik-skaaaaal-001.mp4"));
@@ -76,21 +76,21 @@ public class AddPlayersScreen extends SkaalScreen {
                 public void clicked(InputEvent event, float x, float y) {
                     long id = skaalSound.play();
                     skaalSound.setVolume(id, 10);
-
+                    removablePlayers.forEach(p -> getGame().addPlayer(new Player(p.getName())));
+                    getGame().setScreen(new ChallengeScreen(getGame()));
                 }
             });
         }
     }
 
     private class AddNewPlayerImage extends Image {
-        private final ClickListener imageClickListener;
         private final NewPlayerTextInputListener textInputListener = new NewPlayerTextInputListener();
 
         public AddNewPlayerImage() {
             super(new Texture("image/add-new-player.png"));
             setPosition(XPOS_LEFT, YPOS_NEW_PLAYER);
             setScale(0.8f);
-            imageClickListener = new ClickListener() {
+            addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (removablePlayers.size() > 8) {
@@ -99,8 +99,7 @@ public class AddPlayersScreen extends SkaalScreen {
                     System.out.println("Clicked");
                     Gdx.input.getTextInput(textInputListener, "New Player Name", "", textInputListener.getHint());
                 }
-            };
-            addListener(imageClickListener);
+            });
         }
     }
 
@@ -141,6 +140,10 @@ public class AddPlayersScreen extends SkaalScreen {
         public void dispose() {
             nameLabel.remove();
             deleteButton.remove();
+        }
+
+        public String getName() {
+            return nameLabel.getName();
         }
     }
 
