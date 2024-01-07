@@ -19,6 +19,9 @@ class DraggableCardImage extends Image {
     private final Player player;
 
     private final float screenWidth;
+    private final float initialXPos;
+    private final float initialYPos;
+
     private final float screenHeight;
 
     public DraggableCardImage(OnePlayerCardScreen onePlayerCardScreen) {
@@ -41,14 +44,9 @@ class DraggableCardImage extends Image {
 
         playerNameLabel = LabelFactory.createLabel(player.getPlayerName(), 0, 0, Color.WHITE);
         playerNameLabel.setFontScale(1f);
-
         setLabelPositions();
-//        addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                screen.nextCard();
-//            }
-//        });
+        initialXPos = getX();
+        initialYPos = getY();
     }
 
     private void setLabelPositions() {
@@ -73,7 +71,6 @@ class DraggableCardImage extends Image {
     }
 
     private class CardDragListener extends DragListener {
-        // Note that startDrag is not the same as dragStart
         private float startDragX = 0;
         private float startDragY = 0;
 
@@ -84,10 +81,22 @@ class DraggableCardImage extends Image {
         }
 
         @Override
+        public void dragStop(InputEvent event, float x, float y, int pointer) {
+            float dx = getX() - initialXPos;
+            float dy = getY() - initialYPos;
+            double d = Math.sqrt(dx * dx + dy * dy);
+            if (d > screenWidth * 0.3) {
+                screen.nextCard();
+            } else {
+                setPosition(initialXPos, initialYPos);
+                setLabelPositions();
+            }
+        }
+
+        @Override
         public void drag(InputEvent event, float x, float y, int pointer) {
             moveBy(x - startDragX, y - startDragY);
             setLabelPositions();
-            System.out.println(x + "  " + y);
         }
     }
 }

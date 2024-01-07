@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SinglePlayerCards {
 
@@ -12,9 +13,11 @@ public class SinglePlayerCards {
     List<String> list;
 
     public SinglePlayerCards(){
-        list = Arrays.asList(Gdx.files.internal("text/single-player-cards.txt")
+        list = Arrays.stream(Gdx.files.internal("text/single-player-cards.txt")
                 .readString()
-                .split("%%"));
+                .split("%%"))
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
     }
 
     public String pop(){

@@ -34,7 +34,6 @@ public class OnePlayerCardScreen extends SkaalScreen {
     }
 
     protected void nextCard(){
-        System.out.println("New Card");
         removeActor(topCard);
         removeActor(bottomCard);
 
