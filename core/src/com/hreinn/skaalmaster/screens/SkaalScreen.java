@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,7 +26,7 @@ public abstract class SkaalScreen implements Screen {
     protected SkaalScreen(SkaalMaster game) {
         this.game = game;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        screenViewport = new ExtendViewport(1920, 1080, camera);
+        screenViewport = new ExtendViewport(800, 640, camera);
         stage = new Stage(screenViewport);
         Gdx.input.setInputProcessor(stage);
     }
@@ -78,12 +80,25 @@ public abstract class SkaalScreen implements Screen {
         return game;
     }
 
-    protected Stage getStage() {
+    public Stage getStage() {
         return stage;
+    }
+
+    public float getWidth() {
+        return stage.getWidth();
+    }
+
+    public float getHeight() {
+        return stage.getHeight();
     }
 
     protected void addActor(Actor actor) {
         getStage().addActor(actor);
+    }
+
+
+    protected void removeActor(Actor actor) {
+        actor.remove();
     }
 
     protected Camera getCamera() {

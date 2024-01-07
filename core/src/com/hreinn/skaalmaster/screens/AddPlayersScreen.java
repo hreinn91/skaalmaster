@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.hreinn.skaalmaster.Player;
 import com.hreinn.skaalmaster.SkaalMaster;
-import com.hreinn.skaalmaster.screens.CardScreens.ChallengeScreen;
+import com.hreinn.skaalmaster.screens.CardScreens.OnePlayerCardScreen;
 import com.hreinn.skaalmaster.util.LabelFactory;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class AddPlayersScreen extends SkaalScreen {
     private final AddNewPlayerImage addNewPlayerImage;
     private final StartGameImage startGameImage;
     protected final List<RemovablePlayer> removablePlayers = new ArrayList<>();
+    protected final List<Color> availableColors = availableColors();
 
     public AddPlayersScreen(SkaalMaster game) {
         super(game);
@@ -63,6 +64,16 @@ public class AddPlayersScreen extends SkaalScreen {
         }
     }
 
+    private ArrayList<Color> availableColors() {
+        return new ArrayList<>(List.of(
+                Color.valueOf("ca0b0b")
+        ));
+    }
+
+    protected Color getRandomColor() {
+        return availableColors.remove((int) (availableColors.size() * Math.random()));
+    }
+
     private class StartGameImage extends Image {
         private final Sound skaalSound;
 
@@ -76,8 +87,8 @@ public class AddPlayersScreen extends SkaalScreen {
                 public void clicked(InputEvent event, float x, float y) {
                     long id = skaalSound.play();
                     skaalSound.setVolume(id, 10);
-                    removablePlayers.forEach(p -> getGame().addPlayer(new Player(p.getName())));
-                    getGame().setScreen(new ChallengeScreen(getGame()));
+                    removablePlayers.forEach(p -> getGame().addPlayer(new Player(p.getName(), getRandomColor())));
+                    getGame().setScreen(new OnePlayerCardScreen(getGame()));
                 }
             });
         }

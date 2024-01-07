@@ -10,10 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class LabelFactory {
 
     public static Label createLabel(String text, float xPos, float yPos, Color color) {
-        Label label = new Label(text, new Label.LabelStyle(LabelFactory.getRobotRegular(color), null));
+        Label label = new Label(text, new Label.LabelStyle(LabelFactory.getMontserratBold(color), null));
         label.setPosition(xPos, yPos);
         label.setFontScale(1f);
         return label;
+    }
+
+    public static BitmapFont getMontserratBold(Color color) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+                Gdx.files.internal("font/Montserrat-Bold.ttf"));
+        return getFont(generator, color, 100);
     }
 
     public static BitmapFont getRobotRegular(Color color) {
